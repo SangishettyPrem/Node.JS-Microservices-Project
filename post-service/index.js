@@ -15,7 +15,20 @@ const { ConnectRabbitMQ } = require('./utils/rabbitmq');
 const app = express();
 const PORT = process.env.PORT || 3002;
 
-const redisClient = new Redis();
+if (!process.env.REDIS_URL) {
+  throw new Error("❌ REDIS_URL is not defined");
+}
+
+
+const redisClient = new Redis(process.env.REDIS_URL);
+
+redisClient.on("connect", () => {
+  console.log("✅ Connected to Redis");
+});
+
+redisClient.on("error", (err) => {
+  console.error("❌ Redis error:", err);
+});
 
 app.use(helmet());
 app.use(express.json());

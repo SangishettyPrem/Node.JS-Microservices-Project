@@ -3,7 +3,7 @@ const logger = require('../utils/logger');
 const { RedisStore } = require('rate-limit-redis');
 const Redis = require('ioredis');
 
-const redisClient = new Redis();
+const redisClient = new Redis(process.env.REDIS_URL);
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,

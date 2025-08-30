@@ -3,7 +3,15 @@ const { RedisStore } = require('rate-limit-redis');
 const Redis = require('ioredis');
 const { RateLimiterRedis } = require('rate-limiter-flexible');
 
-const redisClient = new Redis();
+const redisClient = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
+
+redisClient.on("connect", () => {
+    console.log("Connected to Redis");
+})
+
+redisClient.on("error", () => {
+    console.log("Failed to Connect");
+})
 
 // General rate limiter (all routes)
 const limiter = rateLimit({

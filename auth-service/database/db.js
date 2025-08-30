@@ -8,7 +8,7 @@ const connectDB = async () => {
             console.error("Error while Database: ", e);
         })
     } catch (error) {
-        console.error("Error while Database: ", e);
+        console.error("Error while Database: ", error);
     }
 }
 
